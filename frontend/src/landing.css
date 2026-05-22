@@ -372,10 +372,10 @@ body:has(.landing-page)::after {
 
 .landing-about-desc {
   color: var(--landing-text-body);
-  font-size: 0.98rem;
-  line-height: 1.8;
-  margin-bottom: 50px;
-  max-width: 1000px;
+  font-size: 1rem;
+  line-height: 1.85;
+  margin-bottom: 30px;
+  max-width: 100%;
   text-align: justify;
 }
 
