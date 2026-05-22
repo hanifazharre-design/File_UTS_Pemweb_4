@@ -8,6 +8,7 @@ import Biodata from './pages/Biodata';
 import ManageCategories from './pages/ManageCategories';
 import ManageSpeakers from './pages/ManageSpeakers';
 import ManageEvents from './pages/ManageEvents';
+import ManagePengurus from './pages/ManagePengurus';
 import Landing from './pages/Landing';
 
 export const App: React.FC = () => {
@@ -45,6 +46,12 @@ export const App: React.FC = () => {
         {currentView === 'events' && (
           <ProtectedRoute>
             <ManageEvents />
+          </ProtectedRoute>
+        )}
+        
+        {currentView === 'pengurus' && (
+          <ProtectedRoute>
+            <ManagePengurus />
           </ProtectedRoute>
         )}
       </main>

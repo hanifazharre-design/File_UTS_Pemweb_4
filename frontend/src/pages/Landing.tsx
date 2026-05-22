@@ -17,6 +17,8 @@ export const Landing: React.FC = () => {
     fetchEvents,
     fetchCategories,
     fetchSpeakers,
+    fetchPengurus,
+    pengurus,
     setView,
     landingTab,
     setLandingTab
@@ -26,7 +28,8 @@ export const Landing: React.FC = () => {
     fetchEvents();
     fetchCategories();
     fetchSpeakers();
-  }, [fetchEvents, fetchCategories, fetchSpeakers]);
+    fetchPengurus();
+  }, [fetchEvents, fetchCategories, fetchSpeakers, fetchPengurus]);
 
   const navItems: { id: TabType; label: string; icon: React.ReactNode }[] = [
     {
@@ -286,29 +289,32 @@ export const Landing: React.FC = () => {
             </section>
 
             {/* Struktur Organisasi */}
-            <section style={{ padding: '60px 40px', background: '#fff' }}>
-              <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Talkshow</h2>
-              <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Pengurus PR IPM Desa Pesantunan Periode 2024-2026</p>
+            {pengurus.length > 0 && (
+              <section style={{ padding: '60px 40px', background: '#fff' }}>
+                <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Jajaran Pengurus PR IPM Desa Pesantunan</h2>
+                <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Periode Kepengurusan Saat Ini</p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, maxWidth: 700, margin: '0 auto' }}>
-                {[
-                  { jabatan: 'Ketua Umum', nama: 'Ahmad Fauzan' },
-                  { jabatan: 'Sekretaris', nama: 'Siti Nurhaliza' },
-                  { jabatan: 'Bendahara', nama: 'Muhammad Rizki' },
-                  { jabatan: 'Bid. Organisasi', nama: 'Rina Anggraini' },
-                  { jabatan: 'Bid. Kaderisasi', nama: 'Doni Saputra' },
-                  { jabatan: 'Bid. Kajian', nama: 'Nur Aisyah' },
-                ].map((item, i) => (
-                  <div key={i} style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: '#f8f4f6', border: '1px solid rgba(107,24,57,0.08)' }}>
-                    <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'linear-gradient(135deg, #6b1839, #8b2050)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', color: '#fff', fontWeight: 600, fontSize: '1rem' }}>
-                      {item.nama.split(' ').map(n => n[0]).join('').substring(0,2)}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, maxWidth: 700, margin: '0 auto' }}>
+                  {pengurus.map((item) => (
+                    <div key={item.id} style={{ textAlign: 'center', padding: 20, borderRadius: 12, background: '#f8f4f6', border: '1px solid rgba(107,24,57,0.08)' }}>
+                      {item.photoUrl ? (
+                        <img 
+                          src={item.photoUrl} 
+                          alt={item.nama} 
+                          style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover', margin: '0 auto 10px', display: 'block', border: '2px solid #6b1839' }} 
+                        />
+                      ) : (
+                        <div style={{ width: 50, height: 50, borderRadius: '50%', background: 'linear-gradient(135deg, #6b1839, #8b2050)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', color: '#fff', fontWeight: 600, fontSize: '1rem' }}>
+                          {item.nama.split(' ').map(n => n[0]).join('').substring(0,2)}
+                        </div>
+                      )}
+                      <div style={{ fontWeight: 600, color: '#1a1a2e', fontSize: '0.95rem' }}>{item.nama}</div>
+                      <div style={{ color: '#6b1839', fontSize: '0.8rem', fontWeight: 500, marginTop: 4 }}>{item.jabatan}</div>
                     </div>
-                    <div style={{ fontWeight: 600, color: '#1a1a2e', fontSize: '0.95rem' }}>{item.nama}</div>
-                    <div style={{ color: '#6b1839', fontSize: '0.8rem', fontWeight: 500, marginTop: 4 }}>{item.jabatan}</div>
-                  </div>
-                ))}
-              </div>
-            </section>
+                  ))}
+                </div>
+              </section>
+            )}
 
 
 

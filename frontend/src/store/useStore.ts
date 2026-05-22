@@ -42,7 +42,15 @@ export interface Student {
   birthPlaceDate?: string;
 }
 
-export type ViewType = 'landing' | 'dashboard' | 'biodata' | 'categories' | 'speakers' | 'events' | 'login';
+export interface Pengurus {
+  id: number;
+  nama: string;
+  jabatan: string;
+  photoUrl?: string;
+}
+
+
+export type ViewType = 'landing' | 'dashboard' | 'biodata' | 'categories' | 'speakers' | 'events' | 'pengurus' | 'login';
 export type TabType = 'beranda' | 'competition' | 'seminar' | 'workshop' | 'talkshow';
 
 interface AppState {
@@ -50,6 +58,7 @@ interface AppState {
   categories: Category[];
   speakers: Speaker[];
   events: Event[];
+  pengurus: Pengurus[];
   currentView: ViewType;
   landingTab: TabType;
   loading: boolean;
@@ -97,12 +106,19 @@ interface AppState {
     maxParticipants: number;
   }) => Promise<boolean>;
   deleteEvent: (id: number) => Promise<boolean>;
+
+  // Pengurus Actions
+  fetchPengurus: () => Promise<void>;
+  createPengurus: (nama: string, jabatan: string, photoUrl?: string) => Promise<boolean>;
+  updatePengurus: (id: number, nama: string, jabatan: string, photoUrl?: string) => Promise<boolean>;
+  deletePengurus: (id: number) => Promise<boolean>;
 }
 
 // ═══ LOCAL STORAGE HELPERS ═══
 const LS_CATEGORIES = 'ipm_categories';
 const LS_SPEAKERS = 'ipm_speakers';
 const LS_EVENTS = 'ipm_events';
+const LS_PENGURUS = 'ipm_pengurus';
 
 function getLocalCategories(): Category[] {
   return JSON.parse(localStorage.getItem(LS_CATEGORIES) || '[]');
@@ -121,6 +137,12 @@ function getLocalEvents(): Event[] {
 }
 function saveLocalEvents(evts: Event[]) {
   localStorage.setItem(LS_EVENTS, JSON.stringify(evts));
+}
+function getLocalPengurus(): Pengurus[] {
+  return JSON.parse(localStorage.getItem(LS_PENGURUS) || '[]');
+}
+function saveLocalPengurus(p: Pengurus[]) {
+  localStorage.setItem(LS_PENGURUS, JSON.stringify(p));
 }
 function nextId(items: { id: number }[]): number {
   return items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
@@ -164,6 +186,7 @@ export const useStore = create<AppState>((set, get) => {
     categories: getLocalCategories(),
     speakers: getLocalSpeakers(),
     events: getLocalEvents(),
+    pengurus: getLocalPengurus(),
     currentView: initialAuth ? 'dashboard' : 'landing',
     landingTab: 'beranda',
     loading: false,
@@ -588,9 +611,93 @@ export const useStore = create<AppState>((set, get) => {
           }
         }
       } catch {}
-      const evts = getLocalEvents().filter(e => e.id !== id);
-      saveLocalEvents(evts);
       set({ events: evts, loading: false });
+      return true;
+    },
+
+    // ═══════════════════════════════════════
+    // Pengurus CRUD (Local + API fallback)
+    // ═══════════════════════════════════════
+    fetchPengurus: async () => {
+      set({ loading: true, error: null });
+      try {
+        if (await isBackendAvailable()) {
+          const res = await fetch(`${API_URL}/pengurus`);
+          if (res.ok) {
+            const data = await res.json();
+            saveLocalPengurus(data);
+            set({ pengurus: data, loading: false });
+            return;
+          }
+        }
+      } catch {}
+      set({ pengurus: getLocalPengurus(), loading: false });
+    },
+    
+    createPengurus: async (nama, jabatan, photoUrl) => {
+      set({ loading: true, error: null });
+      try {
+        if (await isBackendAvailable()) {
+          const res = await fetch(`${API_URL}/pengurus`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama, jabatan, photoUrl })
+          });
+          if (res.ok) {
+            await get().fetchPengurus();
+            set({ loading: false });
+            return true;
+          }
+        }
+      } catch {}
+      const p = getLocalPengurus();
+      const newP: Pengurus = { id: nextId(p), nama, jabatan, photoUrl };
+      p.push(newP);
+      saveLocalPengurus(p);
+      set({ pengurus: p, loading: false });
+      return true;
+    },
+    
+    updatePengurus: async (id, nama, jabatan, photoUrl) => {
+      set({ loading: true, error: null });
+      try {
+        if (await isBackendAvailable()) {
+          const res = await fetch(`${API_URL}/pengurus/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama, jabatan, photoUrl })
+          });
+          if (res.ok) {
+            await get().fetchPengurus();
+            set({ loading: false });
+            return true;
+          }
+        }
+      } catch {}
+      const p = getLocalPengurus();
+      const idx = p.findIndex(x => x.id === id);
+      if (idx === -1) { set({ error: 'Pengurus tidak ditemukan.', loading: false }); return false; }
+      p[idx] = { ...p[idx], nama, jabatan, photoUrl };
+      saveLocalPengurus(p);
+      set({ pengurus: p, loading: false });
+      return true;
+    },
+    
+    deletePengurus: async (id) => {
+      set({ loading: true, error: null });
+      try {
+        if (await isBackendAvailable()) {
+          const res = await fetch(`${API_URL}/pengurus/${id}`, { method: 'DELETE' });
+          if (res.ok) {
+            await get().fetchPengurus();
+            set({ loading: false });
+            return true;
+          }
+        }
+      } catch {}
+      const p = getLocalPengurus().filter(x => x.id !== id);
+      saveLocalPengurus(p);
+      set({ pengurus: p, loading: false });
       return true;
     }
   };

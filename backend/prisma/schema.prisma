@@ -35,3 +35,10 @@ model Event {
   pembicara       Pembicara     @relation(fields: [pembicaraId], references: [id], onDelete: Cascade)
   maxParticipants Int
 }
+
+model Pengurus {
+  id       Int     @id @default(autoincrement())
+  nama     String
+  jabatan  String
+  photoUrl String?
+}

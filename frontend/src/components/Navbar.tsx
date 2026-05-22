@@ -7,7 +7,8 @@ import {
   Tag, 
   Mic, 
   CalendarDays, 
-  LogOut
+  LogOut,
+  Users
 } from 'lucide-react';
 import ipmLogo from '../assets/ipm_logo.png';
 
@@ -41,6 +42,7 @@ export const Navbar: React.FC = () => {
   const navItems = [
     { view: 'dashboard' as ViewType, label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
     { view: 'biodata' as ViewType, label: 'Biodata Anggota', icon: <User size={20} /> },
+    { view: 'pengurus' as ViewType, label: 'Kelola Pengurus', icon: <Users size={20} /> },
     { view: 'categories' as ViewType, label: 'Kategori Event', icon: <Tag size={20} /> },
     { view: 'speakers' as ViewType, label: 'Pembicara / Speaker', icon: <Mic size={20} /> },
     { view: 'events' as ViewType, label: 'Manajemen Event', icon: <CalendarDays size={20} /> },

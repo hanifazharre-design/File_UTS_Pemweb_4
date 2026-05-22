@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useStore } from '../store/useStore';
-import { CalendarDays, Mic, Tag, ArrowRight, Clock, MapPin, TrendingUp, Activity, Zap } from 'lucide-react';
+import { CalendarDays, Mic, Tag, ArrowRight, Clock, MapPin, TrendingUp, Activity, Zap, Users } from 'lucide-react';
 
 /* Animated Counter Hook */
 function useCounter(target: number, duration = 1500) {
@@ -37,9 +37,11 @@ export const Dashboard: React.FC = () => {
     categories,
     speakers,
     events,
+    pengurus,
     fetchCategories,
     fetchSpeakers,
     fetchEvents,
+    fetchPengurus,
     setView
   } = useStore();
 
@@ -47,7 +49,8 @@ export const Dashboard: React.FC = () => {
     fetchCategories();
     fetchSpeakers();
     fetchEvents();
-  }, [fetchCategories, fetchSpeakers, fetchEvents]);
+    fetchPengurus();
+  }, [fetchCategories, fetchSpeakers, fetchEvents, fetchPengurus]);
 
   const eventCount = useCounter(events.length);
   const speakerCount = useCounter(speakers.length);
@@ -125,6 +128,7 @@ export const Dashboard: React.FC = () => {
               { view: 'events' as const, label: 'Kelola Seluruh Event', icon: <CalendarDays size={18} />, color: 'var(--primary)' },
               { view: 'speakers' as const, label: 'Kelola Daftar Pembicara', icon: <Mic size={18} />, color: 'var(--secondary)' },
               { view: 'categories' as const, label: 'Kelola Kategori Event', icon: <Tag size={18} />, color: 'var(--success)' },
+              { view: 'pengurus' as const, label: 'Kelola Jajaran Pengurus', icon: <Users size={18} />, color: 'var(--warning)' },
             ].map((action) => (
               <button
                 key={action.view}
