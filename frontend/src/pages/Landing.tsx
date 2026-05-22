@@ -160,6 +160,44 @@ export const Landing: React.FC = () => {
               </section>
             )}
 
+            {/* Jadwal Event / Seminar dari Dashboard */}
+            <section id="jadwal-section" style={{ padding: '60px 40px', background: '#fafafa' }}>
+              <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Jadwal Kegiatan & Seminar</h2>
+              <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Daftar kegiatan yang akan diselenggarakan oleh PR IPM Desa Pesantunan</p>
+
+              <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {events.length > 0 ? (
+                  events.map((evt) => (
+                    <div key={evt.id} style={{ background: '#fff', borderRadius: 14, padding: '24px 28px', border: '1px solid rgba(107,24,57,0.08)', display: 'flex', gap: 24, alignItems: 'flex-start', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                      {/* Date Badge */}
+                      <div style={{ minWidth: 70, textAlign: 'center', background: 'linear-gradient(135deg, #6b1839, #8b2050)', borderRadius: 12, padding: '12px 8px', color: '#fff', flexShrink: 0 }}>
+                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8 }}>Jadwal</div>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 700, lineHeight: 1.2, marginTop: 4 }}>{evt.date ? evt.date.split(' ').slice(0, 2).join(' ') : '—'}</div>
+                      </div>
+                      {/* Content */}
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
+                          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1a1a2e', margin: 0 }}>{evt.title}</h3>
+                          <span style={{ background: 'rgba(107,24,57,0.1)', color: '#6b1839', fontSize: '0.72rem', fontWeight: 600, padding: '3px 10px', borderRadius: 20, textTransform: 'uppercase' }}>{evt.category?.name || 'Umum'}</span>
+                        </div>
+                        <p style={{ color: '#5a5a7a', fontSize: '0.9rem', margin: '0 0 10px', lineHeight: 1.6 }}>{evt.description}</p>
+                        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: '0.85rem', color: '#8a8aaa' }}>
+                          <span>📍 {evt.location}</span>
+                          <span>🗓️ {evt.date}</span>
+                          <span>👤 {evt.pembicara?.name || '-'}</span>
+                          <span>💺 {evt.maxParticipants} Kursi</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '40px', background: '#fff', borderRadius: 14, border: '1px solid rgba(107,24,57,0.08)' }}>
+                    <p style={{ color: '#8a8aaa', fontSize: '1rem', margin: 0 }}>Belum ada jadwal kegiatan yang ditambahkan.</p>
+                  </div>
+                )}
+              </div>
+            </section>
+
 
             {/* Visi & Misi */}
             <section style={{ padding: '60px 40px', background: '#fff' }}>
@@ -263,39 +301,7 @@ export const Landing: React.FC = () => {
               </section>
             )}
 
-            {/* Jadwal Event / Seminar dari Dashboard */}
-            {events.length > 0 && (
-              <section id="jadwal-section" style={{ padding: '60px 40px', background: '#fafafa' }}>
-                <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Jadwal Kegiatan & Seminar</h2>
-                <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Daftar kegiatan yang akan diselenggarakan oleh PR IPM Desa Pesantunan</p>
 
-                <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  {events.map((evt) => (
-                    <div key={evt.id} style={{ background: '#fff', borderRadius: 14, padding: '24px 28px', border: '1px solid rgba(107,24,57,0.08)', display: 'flex', gap: 24, alignItems: 'flex-start', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                      {/* Date Badge */}
-                      <div style={{ minWidth: 70, textAlign: 'center', background: 'linear-gradient(135deg, #6b1839, #8b2050)', borderRadius: 12, padding: '12px 8px', color: '#fff', flexShrink: 0 }}>
-                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8 }}>Jadwal</div>
-                        <div style={{ fontSize: '1.1rem', fontWeight: 700, lineHeight: 1.2, marginTop: 4 }}>{evt.date ? evt.date.split(' ').slice(0, 2).join(' ') : '—'}</div>
-                      </div>
-                      {/* Content */}
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
-                          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1a1a2e', margin: 0 }}>{evt.title}</h3>
-                          <span style={{ background: 'rgba(107,24,57,0.1)', color: '#6b1839', fontSize: '0.72rem', fontWeight: 600, padding: '3px 10px', borderRadius: 20, textTransform: 'uppercase' }}>{evt.category?.name || 'Umum'}</span>
-                        </div>
-                        <p style={{ color: '#5a5a7a', fontSize: '0.9rem', margin: '0 0 10px', lineHeight: 1.6 }}>{evt.description}</p>
-                        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: '0.85rem', color: '#8a8aaa' }}>
-                          <span>📍 {evt.location}</span>
-                          <span>🗓️ {evt.date}</span>
-                          <span>👤 {evt.pembicara?.name || '-'}</span>
-                          <span>💺 {evt.maxParticipants} Kursi</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
 
 
 
