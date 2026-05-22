@@ -329,9 +329,16 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify({ name, description })
           });
           if (res.ok) {
-            await get().fetchCategories();
-            set({ loading: false });
+            const data = await res.json();
+            const cats = getLocalCategories();
+            cats.push(data); // optimistic or actual
+            saveLocalCategories(cats);
+            set({ categories: cats, loading: false });
+            get().fetchCategories();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -358,9 +365,16 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify({ name, description })
           });
           if (res.ok) {
-            await get().fetchCategories();
-            set({ loading: false });
+            const data = await res.json();
+            const cats = getLocalCategories();
+            cats.push(data); // optimistic or actual
+            saveLocalCategories(cats);
+            set({ categories: cats, loading: false });
+            get().fetchCategories();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -392,6 +406,9 @@ export const useStore = create<AppState>((set, get) => {
             await get().fetchEvents();
             set({ loading: false });
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -433,9 +450,17 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify({ name, biodata, email, photoUrl })
           });
           if (res.ok) {
-            await get().fetchSpeakers();
-            set({ loading: false });
+            const data = await res.json();
+            const spks = getLocalSpeakers();
+            const idx = spks.findIndex(s => s.id === data.id);
+            if(idx === -1) spks.push(data); else spks[idx] = data;
+            saveLocalSpeakers(spks);
+            set({ speakers: spks, loading: false });
+            get().fetchSpeakers();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -458,9 +483,17 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify({ name, biodata, email, photoUrl })
           });
           if (res.ok) {
-            await get().fetchSpeakers();
-            set({ loading: false });
+            const data = await res.json();
+            const spks = getLocalSpeakers();
+            const idx = spks.findIndex(s => s.id === data.id);
+            if(idx === -1) spks.push(data); else spks[idx] = data;
+            saveLocalSpeakers(spks);
+            set({ speakers: spks, loading: false });
+            get().fetchSpeakers();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -486,6 +519,9 @@ export const useStore = create<AppState>((set, get) => {
             await get().fetchEvents();
             set({ loading: false });
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -526,9 +562,17 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify(eventData)
           });
           if (res.ok) {
-            await get().fetchEvents();
-            set({ loading: false });
+            const data = await res.json();
+            const evts = getLocalEvents();
+            const idx = evts.findIndex(e => e.id === data.id);
+            if(idx === -1) evts.push(data); else evts[idx] = data;
+            saveLocalEvents(evts);
+            set({ events: evts, loading: false });
+            get().fetchEvents();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -575,9 +619,17 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify(eventData)
           });
           if (res.ok) {
-            await get().fetchEvents();
-            set({ loading: false });
+            const data = await res.json();
+            const evts = getLocalEvents();
+            const idx = evts.findIndex(e => e.id === data.id);
+            if(idx === -1) evts.push(data); else evts[idx] = data;
+            saveLocalEvents(evts);
+            set({ events: evts, loading: false });
+            get().fetchEvents();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -605,9 +657,17 @@ export const useStore = create<AppState>((set, get) => {
         if (await isBackendAvailable()) {
           const res = await fetch(`${API_URL}/events/${id}`, { method: 'DELETE' });
           if (res.ok) {
-            await get().fetchEvents();
-            set({ loading: false });
+            const data = await res.json();
+            const evts = getLocalEvents();
+            const idx = evts.findIndex(e => e.id === data.id);
+            if(idx === -1) evts.push(data); else evts[idx] = data;
+            saveLocalEvents(evts);
+            set({ events: evts, loading: false });
+            get().fetchEvents();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -646,9 +706,17 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify({ nama, jabatan, photoUrl })
           });
           if (res.ok) {
-            await get().fetchPengurus();
-            set({ loading: false });
+            const data = await res.json();
+            const p = getLocalPengurus();
+            const idx = p.findIndex(x => x.id === data.id);
+            if(idx === -1) p.push(data); else p[idx] = data;
+            saveLocalPengurus(p);
+            set({ pengurus: p, loading: false });
+            get().fetchPengurus();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -670,9 +738,17 @@ export const useStore = create<AppState>((set, get) => {
             body: JSON.stringify({ nama, jabatan, photoUrl })
           });
           if (res.ok) {
-            await get().fetchPengurus();
-            set({ loading: false });
+            const data = await res.json();
+            const p = getLocalPengurus();
+            const idx = p.findIndex(x => x.id === data.id);
+            if(idx === -1) p.push(data); else p[idx] = data;
+            saveLocalPengurus(p);
+            set({ pengurus: p, loading: false });
+            get().fetchPengurus();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
@@ -691,9 +767,17 @@ export const useStore = create<AppState>((set, get) => {
         if (await isBackendAvailable()) {
           const res = await fetch(`${API_URL}/pengurus/${id}`, { method: 'DELETE' });
           if (res.ok) {
-            await get().fetchPengurus();
-            set({ loading: false });
+            const data = await res.json();
+            const p = getLocalPengurus();
+            const idx = p.findIndex(x => x.id === data.id);
+            if(idx === -1) p.push(data); else p[idx] = data;
+            saveLocalPengurus(p);
+            set({ pengurus: p, loading: false });
+            get().fetchPengurus();
             return true;
+          } else {
+            set({ loading: false });
+            return false;
           }
         }
       } catch {}
