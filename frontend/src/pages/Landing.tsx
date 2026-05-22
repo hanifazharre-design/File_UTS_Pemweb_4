@@ -132,6 +132,65 @@ export const Landing: React.FC = () => {
               </div>
             </section>
 
+            {/* Pembicara / Narasumber dari Dashboard */}
+            {speakers.length > 0 && (
+              <section style={{ padding: '60px 40px', background: '#fff' }}>
+                <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Pembicara & Narasumber</h2>
+                <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Para narasumber yang mengisi kegiatan IPM Pesantunan</p>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20, maxWidth: 900, margin: '0 auto' }}>
+                  {speakers.map((sp) => (
+                    <div key={sp.id} style={{ background: '#f8f4f6', borderRadius: 14, padding: '0 24px 24px', border: '1px solid rgba(107,24,57,0.08)', textAlign: 'center', marginTop: 85 }}>
+                      {sp.photoUrl ? (
+                        <img src={sp.photoUrl} alt={sp.name} style={{ width: 170, height: 170, borderRadius: '50%', objectFit: 'cover', border: '4px solid #6b1839', margin: '-85px auto 16px', display: 'block' }} />
+                      ) : (
+                        <div style={{ width: 170, height: 170, borderRadius: '50%', background: 'linear-gradient(135deg, #6b1839, #8b2050)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '-85px auto 16px', color: '#fff', fontWeight: 700, fontSize: '2.6rem', border: '4px solid #6b1839' }}>
+                          {sp.name.substring(0, 2).toUpperCase()}
+                        </div>
+                      )}
+                      <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1a1a2e', margin: '0 0 4px' }}>{sp.name}</h3>
+                      <p style={{ fontSize: '0.82rem', color: '#6b1839', margin: '0 0 8px', fontWeight: 500 }}>{sp.email}</p>
+                      <p style={{ fontSize: '0.85rem', color: '#5a5a7a', lineHeight: 1.5, margin: 0 }}>{sp.biodata.length > 100 ? sp.biodata.substring(0, 100) + '...' : sp.biodata}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Jadwal Event / Seminar dari Dashboard */}
+            {events.length > 0 && (
+              <section id="jadwal-section" style={{ padding: '60px 40px', background: '#fafafa' }}>
+                <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Jadwal Kegiatan & Seminar</h2>
+                <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Daftar kegiatan yang akan diselenggarakan oleh PR IPM Desa Pesantunan</p>
+
+                <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {events.map((evt) => (
+                    <div key={evt.id} style={{ background: '#fff', borderRadius: 14, padding: '24px 28px', border: '1px solid rgba(107,24,57,0.08)', display: 'flex', gap: 24, alignItems: 'flex-start', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                      {/* Date Badge */}
+                      <div style={{ minWidth: 70, textAlign: 'center', background: 'linear-gradient(135deg, #6b1839, #8b2050)', borderRadius: 12, padding: '12px 8px', color: '#fff', flexShrink: 0 }}>
+                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8 }}>Jadwal</div>
+                        <div style={{ fontSize: '1.1rem', fontWeight: 700, lineHeight: 1.2, marginTop: 4 }}>{evt.date ? evt.date.split(' ').slice(0, 2).join(' ') : '—'}</div>
+                      </div>
+                      {/* Content */}
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
+                          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1a1a2e', margin: 0 }}>{evt.title}</h3>
+                          <span style={{ background: 'rgba(107,24,57,0.1)', color: '#6b1839', fontSize: '0.72rem', fontWeight: 600, padding: '3px 10px', borderRadius: 20, textTransform: 'uppercase' }}>{evt.category?.name || 'Umum'}</span>
+                        </div>
+                        <p style={{ color: '#5a5a7a', fontSize: '0.9rem', margin: '0 0 10px', lineHeight: 1.6 }}>{evt.description}</p>
+                        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: '0.85rem', color: '#8a8aaa' }}>
+                          <span>📍 {evt.location}</span>
+                          <span>🗓️ {evt.date}</span>
+                          <span>👤 {evt.pembicara?.name || '-'}</span>
+                          <span>💺 {evt.maxParticipants} Kursi</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             {/* Visi & Misi */}
             <section style={{ padding: '60px 40px', background: '#fff' }}>
               <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Visi & Misi</h2>
@@ -251,64 +310,7 @@ export const Landing: React.FC = () => {
               </div>
             </section>
 
-            {/* Jadwal Event / Seminar dari Dashboard */}
-            {events.length > 0 && (
-              <section id="jadwal-section" style={{ padding: '60px 40px', background: '#fafafa' }}>
-                <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Jadwal Kegiatan & Seminar</h2>
-                <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Daftar kegiatan yang akan diselenggarakan oleh PR IPM Desa Pesantunan</p>
 
-                <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  {events.map((evt) => (
-                    <div key={evt.id} style={{ background: '#fff', borderRadius: 14, padding: '24px 28px', border: '1px solid rgba(107,24,57,0.08)', display: 'flex', gap: 24, alignItems: 'flex-start', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
-                      {/* Date Badge */}
-                      <div style={{ minWidth: 70, textAlign: 'center', background: 'linear-gradient(135deg, #6b1839, #8b2050)', borderRadius: 12, padding: '12px 8px', color: '#fff', flexShrink: 0 }}>
-                        <div style={{ fontSize: '0.7rem', textTransform: 'uppercase', opacity: 0.8 }}>Jadwal</div>
-                        <div style={{ fontSize: '1.1rem', fontWeight: 700, lineHeight: 1.2, marginTop: 4 }}>{evt.date ? evt.date.split(' ').slice(0, 2).join(' ') : '—'}</div>
-                      </div>
-                      {/* Content */}
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
-                          <h3 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1a1a2e', margin: 0 }}>{evt.title}</h3>
-                          <span style={{ background: 'rgba(107,24,57,0.1)', color: '#6b1839', fontSize: '0.72rem', fontWeight: 600, padding: '3px 10px', borderRadius: 20, textTransform: 'uppercase' }}>{evt.category?.name || 'Umum'}</span>
-                        </div>
-                        <p style={{ color: '#5a5a7a', fontSize: '0.9rem', margin: '0 0 10px', lineHeight: 1.6 }}>{evt.description}</p>
-                        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: '0.85rem', color: '#8a8aaa' }}>
-                          <span>📍 {evt.location}</span>
-                          <span>🗓️ {evt.date}</span>
-                          <span>👤 {evt.pembicara?.name || '-'}</span>
-                          <span>💺 {evt.maxParticipants} Kursi</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Pembicara / Narasumber dari Dashboard */}
-            {speakers.length > 0 && (
-              <section style={{ padding: '60px 40px', background: '#fff' }}>
-                <h2 style={{ textAlign: 'center', fontSize: '1.8rem', fontWeight: 700, color: '#1a1a2e', marginBottom: 8 }}>Pembicara & Narasumber</h2>
-                <p style={{ textAlign: 'center', color: '#8a8aaa', marginBottom: 40, fontSize: '0.95rem' }}>Para narasumber yang mengisi kegiatan IPM Pesantunan</p>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20, maxWidth: 900, margin: '0 auto' }}>
-                  {speakers.map((sp) => (
-                    <div key={sp.id} style={{ background: '#f8f4f6', borderRadius: 14, padding: '0 24px 24px', border: '1px solid rgba(107,24,57,0.08)', textAlign: 'center', marginTop: 85 }}>
-                      {sp.photoUrl ? (
-                        <img src={sp.photoUrl} alt={sp.name} style={{ width: 170, height: 170, borderRadius: '50%', objectFit: 'cover', border: '4px solid #6b1839', margin: '-85px auto 16px', display: 'block' }} />
-                      ) : (
-                        <div style={{ width: 170, height: 170, borderRadius: '50%', background: 'linear-gradient(135deg, #6b1839, #8b2050)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '-85px auto 16px', color: '#fff', fontWeight: 700, fontSize: '2.6rem', border: '4px solid #6b1839' }}>
-                          {sp.name.substring(0, 2).toUpperCase()}
-                        </div>
-                      )}
-                      <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#1a1a2e', margin: '0 0 4px' }}>{sp.name}</h3>
-                      <p style={{ fontSize: '0.82rem', color: '#6b1839', margin: '0 0 8px', fontWeight: 500 }}>{sp.email}</p>
-                      <p style={{ fontSize: '0.85rem', color: '#5a5a7a', lineHeight: 1.5, margin: 0 }}>{sp.biodata.length > 100 ? sp.biodata.substring(0, 100) + '...' : sp.biodata}</p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
 
             {/* Media Partner ORTOM Muhammadiyah */}
             <section style={{ padding: '60px 40px', background: '#f5f5f5' }}>
