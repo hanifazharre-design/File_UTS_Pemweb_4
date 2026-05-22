@@ -107,18 +107,18 @@ export const Landing: React.FC = () => {
             <section className="landing-hero">
               <div className="landing-hero-inner">
                 <div className="landing-hero-text">
-                  <h1 className="landing-hero-title" style={{ fontSize: '2.2rem', lineHeight: 1.2 }}>
-                    Pimpinan Ranting<br/>
-                    <span style={{ color: '#6b1839' }}>Ikatan Pelajar Muhammadiyah</span>
+                  <h1 className="landing-hero-title" style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', lineHeight: 1.2 }}>
+                    <span style={{ display: 'block', whiteSpace: 'nowrap' }}>Pimpinan Ranting</span>
+                    <span style={{ color: '#6b1839', display: 'block', whiteSpace: 'nowrap' }}>Ikatan Pelajar Muhammadiyah</span>
                   </h1>
-                  <p style={{ fontSize: '1.1rem', color: '#555', marginTop: 4, marginBottom: 16, fontWeight: 500 }}>
-                    Desa Pesantunan • Kec. Wanasari • Kab. Brebes • Jawa Tengah
+                  <p className="landing-hero-desc" style={{ marginBottom: 12, textAlign: 'justify' }}>
+                    Ikatan Pelajar Muhammadiyah merupakan organisasi otonom Muhammadiyah yang bergerak dalam bidang kaderisasi pelajar, dakwah Islam, pendidikan, serta pengembangan sosial kemasyarakatan. PR IPM Desa Pesantunan hadir sebagai sarana pembinaan generasi muda yang berorientasi pada pembentukan karakter Islami, penguatan intelektualitas, serta pengembangan kapasitas kepemimpinan yang progresif dan berkemajuan.
                   </p>
-                  <p className="landing-hero-desc">
-                    Ikatan Pelajar Muhammadiyah (IPM) adalah organisasi otonom Muhammadiyah 
-                    yang bergerak di bidang keagamaan, kemasyarakatan, dan kepelajaran. 
-                    PR IPM Desa Pesantunan hadir sebagai wadah pembinaan pelajar 
-                    untuk membentuk karakter islami, intelektual, dan berkemajuan.
+                  <p className="landing-hero-desc" style={{ textAlign: 'justify' }}>
+                    Melalui pelaksanaan program kerja yang edukatif, religius, dan partisipatif, PR IPM Desa Pesantunan berkomitmen menciptakan lingkungan pembelajaran yang mampu mendorong lahirnya pelajar berakhlakul karimah, memiliki wawasan keilmuan yang luas, adaptif terhadap perkembangan teknologi dan sosial, serta memiliki kepedulian tinggi terhadap nilai-nilai kemanusiaan dan pemberdayaan masyarakat. Dengan semangat dakwah dan kolaborasi, organisasi ini diharapkan mampu menjadi motor penggerak terciptanya generasi pelajar Muhammadiyah yang unggul, berintegritas, dan berkontribusi aktif dalam pembangunan peradaban bangsa.
+                  </p>
+                  <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1.05rem)', color: '#6b1839', marginTop: 16, marginBottom: 24, fontWeight: 700 }}>
+                    Desa Pesantunan • Kecamatan Wanasari • Kabupaten Brebes • Jawa Tengah
                   </p>
                   <div className="landing-hero-buttons">
                     <button className="btn-info" onClick={() => setLandingTab('competition')}>
@@ -266,27 +266,7 @@ export const Landing: React.FC = () => {
               </div>
             </section>
 
-            {/* Statistik */}
-            <section style={{ padding: '50px 40px', background: 'linear-gradient(135deg, #6b1839, #8b2050)' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
-                <div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 700, color: '#fff' }}>50+</div>
-                  <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>Anggota Aktif</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 700, color: '#fff' }}>20+</div>
-                  <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>Kegiatan / Tahun</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 700, color: '#fff' }}>5</div>
-                  <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>Bidang Kerja</div>
-                </div>
-                <div>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 700, color: '#fff' }}>3</div>
-                  <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>Tahun Berdiri</div>
-                </div>
-              </div>
-            </section>
+
 
             {/* Struktur Organisasi */}
             {pengurus.length > 0 && (

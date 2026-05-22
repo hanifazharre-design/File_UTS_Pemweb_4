@@ -200,7 +200,7 @@ body:has(.landing-page)::after {
 
 .landing-hero-text {
   flex: 1;
-  max-width: 560px;
+  max-width: 700px;
 }
 
 .landing-hero-title {

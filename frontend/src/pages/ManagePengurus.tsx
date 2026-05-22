@@ -192,11 +192,53 @@ export const ManagePengurus: React.FC = () => {
             </div>
           )}
 
-          <div className="form-group">
-            <label className="form-label">Nama Lengkap</label>
+          <div className="form-group" style={{ marginBottom: 24 }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#5a5a7a', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 12 }}>
+              FOTO PROFIL PENGURUS
+            </label>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              {photoUrl ? (
+                <img 
+                  src={photoUrl} 
+                  alt="Preview" 
+                  style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover' }} 
+                />
+              ) : (
+                <div style={{ width: 64, height: 64, borderRadius: '50%', background: '#7a1b41', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '1.2rem' }}>
+                  {nama ? nama.substring(0, 2).toUpperCase() : 'FT'}
+                </div>
+              )}
+              <label style={{ 
+                display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 16px', 
+                border: '1px solid #e0e0e0', borderRadius: 8, cursor: 'pointer',
+                fontSize: '0.9rem', fontWeight: 500, color: '#1a1a2e', background: '#fff'
+              }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                Pilih Foto Galeri
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => setPhotoUrl(reader.result as string);
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="form-group" style={{ marginBottom: 20 }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#5a5a7a', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 8 }}>
+              NAMA LENGKAP
+            </label>
             <input
               type="text"
-              className="form-input"
+              style={{ width: '100%', padding: '12px 16px', borderRadius: 8, border: '1px solid #e0e0e0', fontSize: '0.95rem' }}
               value={nama}
               onChange={(e) => setNama(e.target.value)}
               placeholder="Contoh: Ahmad Fauzan"
@@ -204,53 +246,40 @@ export const ManagePengurus: React.FC = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Jabatan</label>
-            <input
-              type="text"
-              className="form-input"
+          <div className="form-group" style={{ marginBottom: 24 }}>
+            <label style={{ fontSize: '0.75rem', fontWeight: 600, color: '#5a5a7a', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: 8 }}>
+              JABATAN
+            </label>
+            <select
+              style={{ width: '100%', padding: '12px 16px', borderRadius: 8, border: '1px solid #e0e0e0', fontSize: '0.95rem', backgroundColor: '#fff' }}
               value={jabatan}
               onChange={(e) => setJabatan(e.target.value)}
-              placeholder="Contoh: Ketua Umum"
               required
-            />
+            >
+              <option value="" disabled>Pilih Jabatan</option>
+              <option value="Ketua Umum">Ketua Umum</option>
+              <option value="Sekretaris">Sekretaris</option>
+              <option value="Bendahara">Bendahara</option>
+              <option value="Bid. Organisasi">Bid. Organisasi</option>
+              <option value="Bid. Kaderisasi">Bid. Kaderisasi</option>
+              <option value="Bid. Kajian">Bid. Kajian</option>
+              <option value="Anggota">Anggota</option>
+            </select>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Foto Pengurus (Opsional)</label>
-            <input
-              type="file"
-              className="form-input"
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  const reader = new FileReader();
-                  reader.onloadend = () => {
-                    setPhotoUrl(reader.result as string);
-                  };
-                  reader.readAsDataURL(file);
-                }
-              }}
-            />
-            {photoUrl && (
-              <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
-                <img 
-                  src={photoUrl} 
-                  alt="Preview" 
-                  style={{ width: 50, height: 50, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--primary)' }} 
-                />
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Pratinjau Foto Terpilih</span>
-              </div>
-            )}
-          </div>
-
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 30, paddingTop: 20, borderTop: '1px solid #f0f0f0' }}>
+            <button 
+              type="button" 
+              onClick={() => setIsModalOpen(false)}
+              style={{ padding: '10px 24px', borderRadius: 8, border: '1px solid #e0e0e0', background: '#fff', color: '#1a1a2e', fontWeight: 600, cursor: 'pointer' }}
+            >
               Batal
             </button>
-            <button type="submit" className="btn btn-primary">
-              {editingPengurus ? 'Simpan Perubahan' : 'Tambah Pengurus'}
+            <button 
+              type="submit" 
+              style={{ padding: '10px 24px', borderRadius: 8, border: 'none', background: '#7a1b41', color: '#fff', fontWeight: 600, cursor: 'pointer' }}
+            >
+              Simpan Profil
             </button>
           </div>
         </form>
